@@ -4001,7 +4001,7 @@ const CHAR_EVENTS=[
  {id:'c_fix',min:9,w:7,need:'char_la',tech:true,
   text:'Máy phát kêu một tiếng lạ. Em Lan ghé tai vào nghe rồi nói cái này giống hệt con bug em từng log hồi tháng trước.',
   opts:[
-   {item:'item_ducttape',consume:true,chance:.8,tech:true,text:'Em Lan chỉ chỗ, chúng tôi dán lại. Máy phát chạy êm hẳn, và em ghi chú lại như đang viết báo cáo lỗi.',eff:{sanityAll:1}},
+   {item:'item_ducttape',consume:true,chance:.8,tech:true,text:'Em Lan chỉ chỗ, chúng tôi dán lại. Máy phát chạy êm hẳn, và em ghi chú lại như đang viết báo cáo lỗi.',eff:{sanityAll:1},fail:{text:'Dán rồi mà máy phát vẫn kêu. Cuộn băng keo thì coi như xong.',eff:{}}},
    {none:true,label:'Để em mò thử',chance:.45,text:'Em mò được thật. Em nói cái này gọi là fix tạm, đừng ai đụng vào nữa.',eff:{laSanity:1},
     fail:{text:'Không được. Máy phát tắt nửa đêm rồi tự chạy lại, cả hầm tỉnh giấc.',eff:{sanityAll:-1}}}
   ]},
