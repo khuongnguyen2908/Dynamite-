@@ -576,7 +576,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
       <span class="va">the</span>
       <span class="big display red">DYNAMITE</span>
     </h1>
-    <div class="verbadge">v1.0.4</div>
+    <div class="verbadge">v1.0.5</div>
     <div class="tagline">09:31 — Toà nhà Công ty TNHH Thuốc Nổ. Bạn vừa chấm công trễ một phút.</div>
     <div class="acts">
       <button class="alt" id="bCont" style="display:none"><b>Chơi tiếp</b><span></span></button>
@@ -2833,13 +2833,14 @@ function logp(t){
 function mailFor(id,kind){
   logp(`<div class="mailblock"><b>Thư tự động từ Phòng Nhân sự, 08:00</b>Hệ thống ghi nhận ${PPL[id].name} (${PPL[id].role}) đã ${kind==='thôi việc'?'chấm dứt hợp đồng lao động':'ngừng chấm công vĩnh viễn'} kể từ hôm nay. Vui lòng thu hồi thẻ nhân viên và bàn giao công việc.</div>`);
 }
+const WHY_LABEL={trip:'bị thương',attack:'bị thương',bite:'vết cắn ở chân',rad:'nhiễm xạ',water:'ngộ độc nước',starve:'kiệt sức',dirty:'nhiễm trùng',any:'đang ốm'};
 function shortStatus(p){
   if(p.dead)return 'đã mất';
   if(p.away)return 'đang ở ngoài';
   const a=[];
   if(p.thirst<=1)a.push('mất nước');else if(p.thirst===2)a.push('khát');
   if(p.hunger<=1)a.push('sắp kiệt sức vì đói');else if(p.hunger===2)a.push('đói');
-  if(p.health<=1)a.push('đang ốm');
+  if(p.health<=1)a.push(WHY_LABEL[p.why||'any']||'đang ốm');
   if(p.sanity<=0)a.push('hoảng loạn');else if(p.sanity===1)a.push('tinh thần rất thấp');
   if(p.tired>0)a.push('còn mệt sau chuyến đi');
   return a.length?a.join(', '):'ổn';
@@ -3276,7 +3277,7 @@ function feedGuest(k){
   if(!SH.guest)return;
   if(k==='water'){ if(!takeStock('item_water'))return; SH.guest.thirst=3; logp('WorryK nhận chai nước, gật đầu một cái rất nhẹ.'); }
   else if(k==='jug'){ if(!SH.jugs.length)return; SH.jugs[0]--; if(SH.jugs[0]<=0)SH.jugs.shift(); SH.guest.thirst=3; logp('WorryK được rót một ly từ bình.'); }
-  else if(k==='food'){ if(!takeStock('item_food'))return; p.dying=null; SH.guest.hunger=3; logp('WorryK ăn hết phần của mình rất nhanh, rồi nói cảm ơn.'); }
+  else if(k==='food'){ if(!takeStock('item_food'))return; SH.guest.hunger=3; logp('WorryK ăn hết phần của mình rất nhanh, rồi nói cảm ơn.'); }
   else return;
   sfx.pick(); saveGame(); renderShelter(); renderMail();
 }
@@ -3289,8 +3290,8 @@ function doAct(k,i){
     if(p.hunger<=1){p.hunger++;p.hc=0;logp(`${nm} ăn một hộp mì, nhưng kiệt sức lâu quá nên còn phải ăn thêm.`)}
     else{p.hunger=3;p.hc=0;logp(`${nm} ăn xong một hộp mì.`)} }
   else if(k==='bandage'){
+    if(!['trip','attack','bite','any'].includes(p.why||'any')){shMsg(`${nm} không phải bị thương ngoài da. Cái này phải dùng hộp y tế.`);return}
     if(!takeStock('item_bandage'))return;
-    if(!['trip','attack','bite','any'].includes(p.why||'any')){shMsg(`Băng gạc không chữa được cái ${nm} đang mắc phải.`);return}
     p.health=2;p.sickDays=0;p.why=null;
     if(p.bitten&&!p.bitHealed){p.bitHealed=true;p.bitten=false;logp(`Vết cắn ở chân ${nm} được băng lại kịp.`)}
     logp(`${nm} được băng bó. Vết thương sạch và khô, thế là đủ.`);
