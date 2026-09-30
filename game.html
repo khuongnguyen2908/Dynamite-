@@ -576,7 +576,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
       <span class="va">the</span>
       <span class="big display red">DYNAMITE</span>
     </h1>
-    <div class="verbadge">v1.0.0</div>
+    <div class="verbadge">v1.0.1</div>
     <div class="tagline">09:31 — Toà nhà Công ty TNHH Thuốc Nổ. Bạn vừa chấm công trễ một phút.</div>
     <div class="acts">
       <button class="alt" id="bCont" style="display:none"><b>Chơi tiếp</b><span></span></button>
@@ -2670,9 +2670,9 @@ const EVENTS=[
    {none:true,label:'Nín thở chờ',text:'Chúng tôi nín thở chờ. Họ vào.',eff:{raid:1}}
   ]},
  {id:'trader',min:5,w:7,
-  text:'Một người gõ cửa ba tiếng nhẹ, rồi rao hàng qua khe cửa. Anh ta muốn đổi hai chai nước lấy một cuộn băng keo.',
+  text:'Một người gõ cửa ba tiếng nhẹ, rồi rao hàng qua khe cửa. {OFFER}',
   opts:[
-   {item:'item_ducttape',consume:true,text:'Đổi xong, anh ta biến mất rất nhanh. Nước thì thật, đó là điều quan trọng.',eff:{stockGain:{item_water:2},trade:1}},
+   {offer:true,label:'Đồng ý đổi',text:'Đổi xong. Hàng qua khe cửa, tiền qua khe cửa, không ai nhìn mặt ai.',eff:{doOffer:1}},
    {none:true,label:'Từ chối',text:'Chúng tôi từ chối. Anh ta nói "sau này đừng tiếc nhé" rồi đi.',eff:{}}
   ]},
  {id:'smell',min:7,w:7,
@@ -3161,7 +3161,8 @@ function tabToday(head,C,foot){
   head.innerHTML=`<h3>Bản tin ngày thứ ${SH.day}</h3><div class="sub">Có mặt trong hầm: ${alive().filter(p=>!p.away).map(p=>PPL[p.id].name).join(', ')||'không còn ai'}.</div>`;
   let html=h.lines.map(t=>`<p>${dogName(t)}</p>`).join('');
   const ev=evObj();
-  if(ev)html+=`<p class="ev">${dogName(ev.text)}</p>`;
+  if(ev&&(ev.id==='trader'||ev.id==='trader2')&&!SH.offer)SH.offer=makeOffer();
+  if(ev)html+=`<p class="ev">${dogName(ev.text).replace('{OFFER}',SH.offer?offerText(SH.offer):'')}</p>`;
   if(SH.evDone)html+=`<p>${SH.evDone}</p>`;
   if(h.after&&h.after.length)html+=h.after.map(t=>`<p>${dogName(t)}</p>`).join('');
   if(SH.dayImg&&UI_IMG[SH.dayImg])html+=`<div class="dayimg"><img src="${UI_IMG[SH.dayImg]}" alt=""></div>`;
@@ -3175,7 +3176,7 @@ function tabToday(head,C,foot){
       gb.onclick=()=>{
         SH.datGuard=left-1;
         const t=`Đạt Q kéo then, tì vai vào cửa và nói vọng ra một câu rất ngắn. Bên ngoài im được một lúc rồi bỏ đi. Còn ${SH.datGuard} lần như vậy.`;
-        SH.evDone=t; curDay().ev=dogName(ev.text); curDay().res=t;
+        SH.evDone=t; curDay().ev=dogName(ev.text).replace('{OFFER}',SH.offer?offerText(SH.offer):''); curDay().res=t;
         sfx.click(); saveGame(); renderMail(); renderShelter();
       };
       foot.appendChild(gb);
@@ -3196,8 +3197,15 @@ function tabToday(head,C,foot){
     } else {
       ev.opts.forEach((o,idx)=>{
         const b=document.createElement('button'); b.className='opt'+(o.none?' plain':'');
+        if(o.offer){
+          const ok=offerOK(SH.offer);
+          if(!ok)b.disabled=true;
+          const nm=arr=>arr.map(([id,q])=>`${ITEMS[id].name}${q>1?' ×'+q:''}`).join(', ');
+          b.innerHTML=`<span class="lbl">${o.label}<small>${ok?`Đưa ${nm(SH.offer.want)}, nhận ${nm(SH.offer.give)}`:'Không đủ đồ để đổi'}</small></span>`;
+        } else {
         if(!(o.none||has(o.item)))b.disabled=true;
         b.innerHTML=(o.none?'':icon(o.item,32))+`<span class="lbl">${o.label?dogName(o.label):(o.none?'':'Dùng '+ITEMS[o.item].name)}<small>${o.none?'Không dùng gì cả':(o.consume?'Mất món này':'Có thể giữ lại được')}</small></span>`;
+        }
         b.onclick=()=>chooseOpt(idx);
         foot.appendChild(b);
       });
@@ -3226,7 +3234,7 @@ function chooseOpt(idx){
   applyEff(eff);
   sets.forEach(setFlag);
   if(ev.id==='raid'&&!(eff&&eff.raid)){SH.raidDef=(SH.raidDef||0)+1;if(SH.raidDef>=3)unlock('a_raid3')}
-  SH.evDone=dogName(txt); curDay().ev=dogName(ev.text); curDay().res=dogName(txt);
+  SH.evDone=dogName(txt); curDay().ev=dogName(ev.text).replace('{OFFER}',SH.offer?offerText(SH.offer):''); curDay().res=dogName(txt);
   sfx.click(); saveGame();
   if(SH){renderMail();renderShelter();checkEnd()}
 }
@@ -3445,9 +3453,19 @@ function tabAdvice(head,C,foot){
   if(!has('item_axe')&&!has('item_taser')&&!has('item_guide'))L.push('Không có gì để chặn cửa. Lần gõ cửa tới sẽ khó xử.');
   if(SH.followed)L.push('Chúng ta đã bị bám theo. Hạn chế ra ngoài một thời gian.');
   if(anyBroken())L.push(`Trong kho có ${ITEMS[anyBroken()].name} đang hỏng. Kéo Băng keo lên món đó để vá, hoặc chờ Chị Thắm mày mò.`);
-  if((SH.flags||{}).radio2&&!(SH.flags||{}).radio3)L.push('Đội cứu hộ đã ghi nhận vị trí. Giữ cái đài cho tốt và chờ họ gọi lại.');
-  if((SH.flags||{}).heli_seen&&!(SH.flags||{}).heli_done)L.push('Có trực thăng bay quanh khu này. Giữ đèn pin hoặc Sổ tay PCCC để ra hiệu khi nó quay lại.');
-  if((SH.flags||{}).flyer&&!(SH.flags||{}).comp_done)L.push('Tờ rơi của Công ty Mẹ nói phải đánh dấu cửa. Cần một cuộn băng keo.');
+  const F2=SH.flags||{};
+  if(has('item_radio')&&!F2.radio1&&!F2.army_dead)L.push('Cái đài bắt được tiếng người nhưng toàn nhiễu. Ăng-ten trên sân thượng chắc đã lệch, phải cử người lên chỉnh.');
+  if(F2.ant_fixed&&!F2.radio2)L.push('Ăng-ten đã thẳng. Giữ cái đài cho tốt, và giữ luôn Sơ đồ tòa nhà để báo đúng toạ độ.');
+  if(F2.ant_broken&&!F2.radio2)L.push('Ăng-ten lại lệch rồi. Cần một cuộn băng keo và thêm một chuyến lên sân thượng nữa.');
+  if(F2.radio2)L.push('Đã hẹn được ngày xe tới. Giữ cho đủ người tới hôm đó.');
+  if(has('item_flare')&&!F2.heli_done)L.push('Trong kho có súng bắn pháo sáng. Đợi một đêm trời quang rồi bắn, trực thăng sẽ thấy.');
+  if(!has('item_flare')&&!F2.heli_done&&SH.trades>0)L.push('Người buôn lậu có thứ đáng đổi hơn đồ ăn. Lần sau anh ta tới thì hỏi cái túi dài.');
+  if(F2.flyer&&!F2.comp_done)L.push('Tờ rơi của Công ty Mẹ nói phải đánh dấu cửa hầm. Cần một cuộn băng keo.');
+  if(F2.convoy_seen&&!F2.convoy_done)L.push('Có đoàn xe rà quanh khu này. Giữ đèn pin để ra hiệu, hoặc đốt Sổ tay PCCC làm khói.');
+  if(has('item_guide')&&!F2.ho_note&&SH.day>=10)L.push('Mang Sổ tay PCCC theo khi đi vơ vét: người đi sẽ xé một trang, vẽ đường về hầm và dán lên cột điện.');
+  if(F2.ho_note&&!F2.ho_done)L.push('Tờ giấy đã dán ngoài kia. Nếu có ai gõ cửa theo nhịp lạ thì cân nhắc mở.');
+  if(SH.pet&&!F2.worryk_friend&&SH.day>=18)L.push('Con chó cứ sủa về một hướng. Có thể nó biết đường mà chúng ta không biết.');
+  if(has('item_walkie'))L.push('Bộ đàm của WorryK gọi được hai lần, mỗi lần cách nhau năm ngày. Đừng gọi khi chưa thật cần.');
   while(L.length<4){
     const t=TIPS_GUIDE[Math.floor(Math.random()*TIPS_GUIDE.length)];
     if(!L.includes(t))L.push(t);
@@ -3495,6 +3513,13 @@ function applyEff(e){
     logp(catHere?'Em Cát đặt tên con chó là Lọ Lem Xám, nói tên phải có khí chất thì chạy mới nhanh. Không ai phản đối.':'Con chó được đặt tên là Mực, vì nó màu xám và vì không ai nghĩ ra tên nào khác.');
   }
   if(e.followed){SH.followed=true}
+  if(e.doOffer&&SH.offer){
+    unlock('a_trade1'); SH.trades=(SH.trades||0)+1;
+    const nm=arr=>arr.map(([id,q])=>`${ITEMS[id].name}${q>1?' ×'+q:''}`).join(', ');
+    SH.offer.want.forEach(([id,q])=>{for(let k=0;k<q;k++)takeStock(id)});
+    SH.offer.give.forEach(([id,q])=>{for(let k=0;k<q;k++){addStock(id);markNew(id)}});
+    logp(`<b>Đưa đi:</b> ${nm(SH.offer.want)}. <b>Nhận về:</b> ${nm(SH.offer.give)}.`);
+  }
   if(e.trade){unlock('a_trade1');SH.trades=(SH.trades||0)+1;if(SH.trades>=3)setFlag('trade3')}
   if(e.petGone){SH.pet=false;logp('Chúng tôi đặt nó ở góc hầm, chỗ ấm nhất.')}
   if(e.win){SH.pendingWin=e.win;SH.pendingWinDay=SH.day+(e.after||2);startChain(e.win==='normal'?'normal':e.win)}
@@ -3757,11 +3782,11 @@ function expedReturn(){
   }
   if(!e.oneDay){
     const F=SH.flags||{};
-    if(e.items.includes('item_guide')&&!F.ho_note&&SH.day>=10&&chainOpen('ho')&&Math.random()<.7){
+    if(e.items.includes('item_guide')&&!F.ho_note&&SH.day>=10&&Math.random()<.85){
       setFlag('ho_note');
-      logp(`${PPL[p.id].name} xé một trang Sổ tay PCCC, vẽ lại sơ đồ đường về hầm và dán lên cột điện đầu phố.`);
+      logp(`<b>${PPL[p.id].name} xé một trang Sổ tay PCCC, vẽ lại sơ đồ đường về hầm và dán lên cột điện đầu phố.</b>`);
     }
-    else if(!F.convoy_seen&&SH.day>=12&&chainOpen('normal')&&Math.random()<.25){setFlag('convoy_seen');logp(`${PPL[p.id].name} kể là có thấy một đoàn xe chạy chậm ở phía đường lớn.`)}
+    if(!F.convoy_seen&&SH.day>=12&&chainOpen('normal')&&Math.random()<.25){setFlag('convoy_seen');logp(`${PPL[p.id].name} kể là có thấy một đoàn xe chạy chậm ở phía đường lớn.`)}
     else if(!F.flyer&&Math.random()<.18){setFlag('flyer');addStock('item_ducttape');markNew('item_ducttape');logp(`${PPL[p.id].name} mang về một tờ rơi của Công ty Mẹ, dính đầy bụi.`)}
   }
   if(!e.oneDay&&(SH.expCount||0)>=3&&!SH.followed&&Math.random()<.5){
@@ -3777,14 +3802,14 @@ function chooseSend(pid){
   SH.exped={id:pid,items:[],sent:SH.day,back:SH.day+1,oneDay:true};
   SH.blockPrep=true;
   SH.evDone=`${PPL[pid].name} đi ra ngoài ngay trong hôm nay. Cửa hầm mở rồi đóng lại.`;
-  curDay().ev=ev.text; curDay().res=SH.evDone;
+  curDay().ev=dogName(ev.text).replace('{OFFER}',SH.offer?offerText(SH.offer):''); curDay().res=SH.evDone;
   sfx.door(); saveGame(); renderMail(); renderShelter();
 }
 function chooseSendNone(){
   const ev=evObj();
   SH.evDone=ev.noText||'Chúng tôi quyết định không mở cửa. Ngoài kia im lặng dần.';
   applyEff(ev.noEff||{sanityAll:-1});
-  curDay().ev=ev.text; curDay().res=SH.evDone;
+  curDay().ev=dogName(ev.text).replace('{OFFER}',SH.offer?offerText(SH.offer):''); curDay().res=SH.evDone;
   sfx.click(); saveGame(); renderMail(); renderShelter(); checkEnd();
 }
 
@@ -3826,10 +3851,9 @@ const MORE_EVENTS=[
    {none:true,label:'Không mở',text:'Chúng tôi không trả lời. Tiếng gõ thưa dần rồi hết.',eff:{sanityAll:-1},set:['stranger_cold']}
   ]},
  {id:'trader2',min:9,w:7,noItem:'item_flare',
-  text:'Người buôn lậu quay lại, lần này mang theo một cái túi dài. Anh ta nói trong đó là thứ đáng đổi hơn nhiều so với đồ ăn.',
+  text:'Người buôn lậu quay lại, lần này mang theo một cái túi dài và kê hàng ra ngay trước khe cửa. {OFFER}',
   opts:[
-   {item:'item_food',consume:true,text:'Đổi xong. Anh ta lôi từ trong áo ra một khẩu súng bắn pháo sáng còn nguyên một viên, dặn để dành cho đêm nào trời quang.',eff:{stockLoss:{item_food:1},stockGain:{item_flare:1},trade:1}},
-   {item:'item_ducttape',consume:true,text:'Anh ta cầm cuộn băng keo, gật gù, rồi đưa lại một khẩu súng bắn pháo sáng và một cái mặt nạ cũ.',eff:{stockGain:{item_flare:1,item_gasmask:1},trade:1}},
+   {offer:true,label:'Đồng ý đổi',text:'Anh ta nhận hàng, đếm lại một lượt rồi đẩy phần của mình qua khe cửa. Nhanh và gọn như đã làm việc này trăm lần.',eff:{doOffer:1}},
    {none:true,label:'Từ chối',text:'Chúng tôi từ chối. Anh ta nhún vai, nói kiểu gì cũng gặp lại.',eff:{}}
   ]},
  {id:'print',min:7,w:6,need:'char_intern',
@@ -4440,7 +4464,7 @@ function startNewDay(){
 }
 function doDay(){
   INDAY=true;
-  SH.day++; SH.ev=null; SH.evDone=null; SH.evP=null; SH.dayImg=null; SH.cardUsed=0; SH.tab=1; SH.plan={}; SH.newItems=[]; SH.blockPrep=false; SH.mode='today';
+  SH.day++; SH.ev=null; SH.evDone=null; SH.evP=null; SH.dayImg=null; SH.cardUsed=0; SH.offer=null; SH.tab=1; SH.plan={}; SH.newItems=[]; SH.blockPrep=false; SH.mode='today';
   SH.hist.push({day:SH.day,lines:[],after:[],close:'',ev:'',res:''});
   if(SH.hist.length>40)SH.hist.shift();
   const ent=has('item_cards')||has('item_plant')||SH.people.some(p=>p.id==='char_ho'&&!p.dead&&!p.left&&!p.away);
@@ -4661,6 +4685,48 @@ function kill(p,cause){
   }logp(`${PPL[p.id].name} không qua được đêm qua. ${cause}`);mailFor(p.id,'mất')}
 function chainOpen(c){ return !SH.chain || SH.chain===c }
 function startChain(c){ SH.chain=c }
+const OFFER_WANT=['item_water','item_food','item_ducttape','item_bugspray','item_cards','item_flashlight','item_plant','item_axe','item_taser','item_map','item_guide','item_medkit','item_gasmask','item_radio','item_lock'];
+const OFFER_GIVE=['item_water','item_water','item_food','item_food','item_medkit','item_ducttape','item_gasmask','item_flashlight','item_map','item_axe','item_taser','item_cards','item_bugspray','item_lock','item_radio','item_flare'];
+const OFFER_VAL={item_water:1,item_food:1,item_ducttape:1.5,item_bugspray:1,item_cards:1.5,item_flashlight:2,item_plant:1,item_axe:2.5,item_taser:2,item_map:2,item_guide:2,item_medkit:2.5,item_gasmask:3,item_radio:3,item_lock:2.5,item_flare:4};
+function makeOffer(){
+  const KEEP=['item_walkie','item_charm'].concat(Object.values(PERSONAL));
+  const own=[];
+  stockList().forEach(([id,n])=>{
+    if(KEEP.includes(id)||!OFFER_WANT.includes(id))return;
+    let spare=(id==='item_water'||id==='item_food')?Math.max(0,n-4):n;
+    if(spare>0)own.push([id,Math.min(spare,3)]);
+  });
+  if(!own.length)return null;
+  const want=[];
+  const first=own[Math.floor(Math.random()*own.length)];
+  const q1=1+Math.floor(Math.random()*Math.min(2,first[1]));
+  want.push([first[0],q1]);
+  if(own.length>1&&Math.random()<.45){
+    const rest=own.filter(x=>x[0]!==first[0]);
+    const second=rest[Math.floor(Math.random()*rest.length)];
+    want.push([second[0],1]);
+  }
+  const wantVal=want.reduce((a,[id,q])=>a+(OFFER_VAL[id]||1)*q,0);
+  const give=[]; let giveVal=0;
+  const target=wantVal*(0.85+Math.random()*0.8);
+  let guard=0;
+  while(giveVal<target&&give.length<3&&guard++<30){
+    const id=OFFER_GIVE[Math.floor(Math.random()*OFFER_GIVE.length)];
+    if(want.some(w=>w[0]===id))continue;
+    const v=OFFER_VAL[id]||1;
+    if(giveVal+v>target+1.6&&give.length)break;
+    const ex=give.find(g=>g[0]===id);
+    if(ex)ex[1]++; else give.push([id,1]);
+    giveVal+=v;
+  }
+  if(!give.length)give.push(['item_water',2]);
+  return {want,give};
+}
+function offerText(o){
+  const nm=arr=>arr.map(([id,q])=>`${ITEMS[id].name}${q>1?' ×'+q:''}`).join(', ');
+  return `Anh ta muốn <b>${nm(o.want)}</b>, đổi lại sẽ đưa <b>${nm(o.give)}</b>.`;
+}
+function offerOK(o){ return !!o && o.want.every(([id,q])=>intact(id)>=q); }
 function rollEvent(){
   const someoneOut=!!SH.exped;
   const chainReady=ALL_EV.some(e=>e.req&&SH.day>=e.min&&e.req.every(f=>(SH.flags||{})[f]&&SH.day>=((SH.flagDay||{})[f]||0)+(e.gap||0))&&!(e.block||[]).some(f=>(SH.flags||{})[f])&&(!e.needItem||has(e.needItem))&&(!e.need||SH.people.some(p=>p.id===e.need&&!p.dead&&!p.left&&!p.away)));
@@ -4703,7 +4769,10 @@ function rollEvent(){
   let tot=pool.reduce((a,e)=>a+wof(e),0), r=Math.random()*tot;
   for(const e of pool){
     r-=wof(e);
-    if(r<=0){SH.ev=e.id;SH.lastEv=e.id;if(e.once)setFlag('once_'+e.id);if(e.id==='raid'||e.id==='leak')SH.heavyCool=2;break}
+    if(r<=0){
+      SH.ev=e.id;SH.lastEv=e.id;
+      if(e.id==='trader'||e.id==='trader2'){SH.offer=makeOffer();if(!SH.offer){SH.ev=null;SH.lastEv=null;break}}else SH.offer=null;
+      if(e.once)setFlag('once_'+e.id);if(e.id==='raid'||e.id==='leak')SH.heavyCool=2;break}
   }
 }
 function checkEnd(){
