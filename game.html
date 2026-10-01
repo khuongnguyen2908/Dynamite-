@@ -436,6 +436,21 @@ input[type=range]{width:200px;accent-color:var(--ink)}
 @keyframes hpulse{0%,100%{box-shadow:0 0 0 0 rgba(176,74,51,.55)}50%{box-shadow:0 0 0 7px rgba(176,74,51,0)}}
 .hface.gone{opacity:.5;cursor:default;background:#1A201E}
 .hface.gone .fimg img,.hface.gone .fimg svg{filter:grayscale(1) brightness(.5)}
+/* hồn ma Tomie */
+.hface.spirit{background:linear-gradient(180deg,#26312F 0%,#1A2322 100%);border-color:#6E93A0;opacity:1}
+.hface.spirit .fimg img,.hface.spirit .fimg svg{filter:grayscale(.15) brightness(1.06);opacity:.62;animation:ghostFade 4.2s ease-in-out infinite}
+.hface.spirit .fhead b{color:#CFE6EE}
+.hface.spirit .fhead i{color:#8FB6C4}
+@keyframes ghostFade{0%,100%{opacity:.45}50%{opacity:.72}}
+.hface .fglow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 38%,rgba(150,220,235,.30) 0%,rgba(150,220,235,0) 62%);animation:ghostGlow 4.2s ease-in-out infinite;z-index:4}
+@keyframes ghostGlow{0%,100%{opacity:.5}50%{opacity:1}}
+/* đang ở ngoài */
+.hface.away{border-color:#C7A14B;animation:outPulse 2.2s infinite}
+@keyframes outPulse{0%,100%{box-shadow:0 0 0 0 rgba(199,161,75,.5)}50%{box-shadow:0 0 0 7px rgba(199,161,75,0)}}
+.hface.away .fimg img,.hface.away .fimg svg{filter:grayscale(.85) brightness(.28) contrast(1.4)}
+.hface.away .fbody .hbar{opacity:.3}
+.hface .fout{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(14,19,18,.35),rgba(14,19,18,.72));z-index:3}
+.hface .fmark.out{background:#C7A14B}
 .hface .fcross{position:absolute;left:-2px;right:-2px;top:50%;height:4px;background:#C24A34;transform:translateY(-50%) rotate(-8deg);box-shadow:0 0 8px rgba(0,0,0,.75);z-index:5}
 .hface .fmark{position:absolute;right:6px;top:6px;font-size:10px;font-weight:800;color:#0E1312;background:#8FA39E;border-radius:3px;padding:1px 5px}
 #hudPop{position:absolute;bottom:150px;z-index:41;display:none;background:#F2ECDE;border:3px solid var(--ink);border-radius:4px;padding:12px 14px;min-width:240px;box-shadow:6px 6px 0 rgba(0,0,0,.35)}
@@ -678,7 +693,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
       <span class="va">the</span>
       <span class="big display red">DYNAMITE</span>
     </h1>
-    <div class="verbadge">v1.9.5</div>
+    <div class="verbadge">v1.9.6</div>
     <div class="tagline">09:31 — Toà nhà Công ty TNHH Thuốc Nổ. Bạn vừa chấm công trễ một phút.</div>
     <div class="acts">
       <button class="alt" id="bCont" style="display:none"><b>Chơi tiếp</b><span></span></button>
@@ -3108,19 +3123,24 @@ function renderHud(){
   const LBL={ok:'Đang ổn',tired:'Đang xuống sức',hurt:'Cần chữa',broken:'Hoảng loạn',dead:'Đã mất'};
   SH.people.forEach(p=>{
     const fs=faceState(p), gone=p.dead||p.left;
+    const isGhost=gone&&p.dead&&p.id==='char_tomie';
     const el=document.createElement('button');
-    el.className='hface'+(gone?' gone':'')+(fs==='broken'||fs==='hurt'?' bad':(fs==='tired'?' warn':''))+(SH.hudSel===p.id?' sel':'');
+    el.className='hface'+(gone?' gone':'')+(isGhost?' spirit':'')+(p.away&&!gone?' away':'')
+      +(fs==='broken'||fs==='hurt'?' bad':(fs==='tired'?' warn':''))+(SH.hudSel===p.id?' sel':'');
     el.dataset.id=p.id;
-    let stTxt=gone?(p.left?'Đã bỏ hầm':'Đã mất'):LBL[fs];
-    if(!gone&&p.away)stTxt='Đang ở ngoài';
+    let stTxt=gone?(p.left?'Đã bỏ hầm':(isGhost?'Vẫn ở đây':'Đã mất')):LBL[fs];
+    if(!gone&&p.away){
+      const back=(SH.exped&&SH.exped.id===p.id)?SH.exped.back-SH.day:null;
+      stTxt=back===null?'Đang ở ngoài':(back<=0?'Về trong hôm nay':`Về sau ${back} ngày`);
+    }
     const bars=gone?'':(
       hudBar('w',Math.max(0,p.thirst),3,'Nước')+
       hudBar('f',Math.max(0,p.hunger),3,'Đồ ăn')+
       hudBar('h',healthLevel(p),3,'Sức khoẻ')+
       hudBar('s',Math.max(0,p.sanity),3,'Tinh thần'));
-    el.innerHTML=`<span class="fimg">${faceImg(p.id,fs)}${gone?'<span class="fcross"></span>':''}</span>`
+    el.innerHTML=`<span class="fimg">${faceImg(p.id,fs)}${(gone&&!isGhost)?'<span class="fcross"></span>':''}${isGhost?'<span class="fglow"></span>':''}${(p.away&&!gone)?'<span class="fout"></span>':''}</span>`
       +`<span class="fbody"><span class="fhead"><b>${PPL[p.id].name}</b><i>${stTxt}</i></span>${bars}</span>`
-      +(p.away&&!gone?'<span class="fmark">NGOÀI</span>':'');
+      +(p.away&&!gone?'<span class="fmark out">NGOÀI</span>':'');
     el.onclick=()=>{ if(gone)return; toggleHudPop(p.id,el); };
     box.appendChild(el);
   });
