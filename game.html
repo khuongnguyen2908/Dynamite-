@@ -520,6 +520,9 @@ input[type=range]{width:200px;accent-color:var(--ink)}
 .mwtabs .mwtab.on{background:#FAF5E9;color:var(--ink);border-color:#C9C1AE;box-shadow:inset 6px 0 0 var(--tc);margin-right:-2px;padding-right:16px;position:relative;z-index:2}
 .mwtabs .mwtab[disabled]{opacity:.38;background:#E4DCC8;box-shadow:none;cursor:default}
 .mwtabs{width:208px}
+.actbtn.need{border-color:#8A5BB8;background:#F3EEF8}
+.actbtn.need:hover{background:#EBE2F4}
+.needrow{margin-top:6px}
 #menu .links button{position:relative}
 .newdot{position:absolute;right:-9px;top:-5px;min-width:10px;height:10px;border-radius:50%;background:#F2B21A;box-shadow:0 0 0 2px #1A1410,0 0 10px rgba(242,178,26,.8);animation:dotBlink 1.2s ease-in-out infinite}
 #menu .links button:has(.newdot){color:#F6D98A}
@@ -711,7 +714,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
       <span class="va">the</span>
       <span class="big display red">DYNAMITE</span>
     </h1>
-    <div class="verbadge">v2.2.2</div>
+    <div class="verbadge">v2.3.0</div>
     <div class="tagline">09:31 — Toà nhà Công ty TNHH Thuốc Nổ. Bạn vừa chấm công trễ một phút.</div>
     <div class="acts">
       <button class="alt" id="bCont" style="display:none"><b>Chơi tiếp</b><span></span></button>
@@ -1009,6 +1012,11 @@ function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 const settings=Object.assign({vol:70,mute:false,big:false,tips:true,diff:'normal'},load('ctvtn_settings',{}));
 const CHANGELOG=[
+ {v:'2.3.0',d:'01/10',t:'Người trong hầm biết đòi hỏi',
+  items:['Thỉnh thoảng có người nêu một nguyện vọng nhỏ: hát một bài, được yên một buổi, ăn trọn phần của mình, có người ngồi nghe, có người chơi cùng.',
+         'Chiều họ thì tinh thần lên, bỏ qua ba lần thì họ dỗi và ăn ngon mấy cũng không vui lại được.',
+         'Ai tinh thần quá thấp có thể không muốn ăn uống gì cả.',
+         'Bỏ phần cộng tinh thần cho cả hầm mỗi khi có người vơ vét về, giờ chỉ người vừa về được cộng.']},
  {v:'2.2.1',d:'01/10',t:'Nghề của Thắm và Lan',
   items:['Chị Thắm: trong tám sự kiện cần băng keo giờ có thêm lựa chọn nhờ chị xử lý, không tốn băng keo, hai lần mỗi ván.',
          'Em Lan: nút nhờ tư vấn trước mỗi chuyến ra ngoài, cho biết khả năng không về, khả năng bị thương và số đồ dự kiến.',
@@ -3149,6 +3157,61 @@ function logp(t){
 function mailFor(id,kind){
   logp(`<div class="mailblock"><b>Thư tự động từ Phòng Nhân sự, 08:00</b>Hệ thống ghi nhận ${PPL[id].name} (${PPL[id].role}) đã ${kind==='thôi việc'?'chấm dứt hợp đồng lao động':'ngừng chấm công vĩnh viễn'} kể từ hôm nay. Vui lòng thu hồi thẻ nhân viên và bàn giao công việc.</div>`);
 }
+const NEEDS={
+ char_intern:{ask:'Em Cát hỏi nhỏ là tối nay có ai muốn nghe em hát một bài không. Em nói em thuộc nguyên bài nhạc mở đầu.',
+   yes:'Cả hầm ngồi nghe Em Cát hát. Em quên lời đoạn giữa rồi tự chế tiếp, và không ai bắt bẻ.',
+   no:'Em Cát hỏi thêm một lần nữa rồi thôi. Tối đó em ngồi quay mặt vào vách.',
+   label:'Nghe Em Cát hát'},
+ char_art:{ask:'Chị Thắm nói chị cần đúng một buổi không ai nhờ vả gì, chỉ ngồi vẽ.',
+   yes:'Cả hầm để chị yên một buổi. Chiều đó trên vách có thêm năm khuôn mặt, ai cũng đẹp hơn ngoài đời một chút.',
+   no:'Chị Thắm không nói thêm gì. Mấy ngày sau chị vẫn sửa đồ, chỉ là không ngẩng lên nữa.',
+   label:'Để Chị Thắm yên một buổi'},
+ char_dat:{ask:'Anh Đạt Q nói anh ăn ít cũng được, nhưng hôm nay anh muốn ăn đúng phần của mình, không chia cho ai.',
+   yes:'Chúng tôi để nguyên phần của anh. Anh ăn hết, rồi ngồi im một lúc lâu, rồi nói cảm ơn.',
+   no:'Phần của anh lại bị chia bớt. Anh không nói gì, nhưng tối đó anh không tập xà nữa.',
+   label:'Để Anh Đạt ăn phần của mình'},
+ char_tomie:{ask:'Chị Tomie bảo chị có chuyện muốn kể, và chị chỉ cần ai đó ngồi nghe tới hết.',
+   yes:'Chúng tôi ngồi nghe chị kể tới hết, kể cả đoạn không ai hiểu. Chị cảm ơn bằng một cái gật đầu rất nhẹ.',
+   no:'Chị Tomie kể được nửa chừng thì dừng, nói để hôm khác. Không có hôm khác nào cả.',
+   label:'Ngồi nghe Chị Tomie kể'},
+ char_la:{ask:'Em Lan rủ ai đó chơi với em một ván, kiểu gì cũng được, miễn là có người chơi cùng.',
+   yes:'Em Lan bày ra một trò tự chế có luật rất dài. Cuối cùng em thua, và em vui hơn cả lúc thắng.',
+   no:'Em Lan ngồi chơi một mình, tự bấm giờ cho mình, rồi cất đồ đi sớm.',
+   label:'Chơi với Em Lan'}
+};
+function rollNeed(){
+  if(SH.need)return;
+  if((SH.needCool||0)>0){SH.needCool--;return}
+  const cands=SH.people.filter(p=>!p.dead&&!p.left&&!p.away&&NEEDS[p.id]);
+  if(!cands.length)return;
+  const p=cands[Math.floor(Math.random()*cands.length)];
+  SH.need={id:p.id,day:SH.day};
+  logp(`<b>${NEEDS[p.id].ask}</b>`);
+}
+function needExpire(){
+  if(!SH.need)return;
+  const p=SH.people.find(q=>q.id===SH.need.id);
+  if(!p||p.dead||p.left){SH.need=null;return}
+  if(SH.day-SH.need.day<2)return;
+  logp(NEEDS[p.id].no);
+  p.ignored=(p.ignored||0)+1;
+  if(p.ignored>=3){
+    p.ignored=0; p.sulk=3;
+    if(p.sanity>0)p.sanity--;
+    logp(`<b class="warn">${PPL[p.id].name} thôi không hỏi gì nữa. Mấy ngày tới có cho ăn ngon tới đâu cũng vậy thôi.</b>`);
+  }
+  SH.need=null; SH.needCool=2+Math.floor(Math.random()*3);
+}
+function doNeed(){
+  if(!SH.need)return;
+  const p=SH.people.find(q=>q.id===SH.need.id);
+  if(!p||p.dead||p.left||p.away)return;
+  logp(`<b>${NEEDS[p.id].yes}</b>`);
+  if(p.sanity<3)p.sanity++;
+  p.ignored=0; p.sulk=0;
+  SH.need=null; SH.needCool=3+Math.floor(Math.random()*3);
+  sfx.pick(); saveGame(); renderMail(); renderShelter();
+}
 const WHY_LABEL={trip:'bị thương',attack:'bị thương',bite:'vết cắn ở chân',rad:'nhiễm xạ',water:'ngộ độc nước',starve:'kiệt sức',dirty:'nhiễm trùng',any:'đang ốm'};
 function shortStatus(p,scope){
   if(p.dead)return 'đã mất';
@@ -3794,6 +3857,18 @@ function feedGuest(k){
 function doAct(k,i){
   const p=SH.people[i], nm=PPL[p.id].name;
   if(p.dead||p.left||p.away)return;
+  if(['water','jug','food','foodbox'].includes(k)&&p.thirst>=2&&p.hunger>=2&&!p.dying){
+    const refuse=p.sanity<=0?.35:(p.sanity===1?.2:(p.sulk?.15:0));
+    if(refuse&&Math.random()<refuse){
+      const L=['{n} nhìn phần của mình một lúc rồi đẩy sang chỗ khác, nói để lát nữa.',
+               '{n} lắc đầu, nói chưa thấy đói. Không ai dám hỏi thêm.',
+               '{n} cầm lấy, ngồi im một lúc, rồi đặt xuống nguyên như cũ.'];
+      logp(L[Math.floor(Math.random()*L.length)].replace('{n}',nm));
+      shMsg(`${nm} không muốn ăn uống gì lúc này.`);
+      SH.plan[p.id]=null; saveGame(); renderMail(); renderShelter();
+      return;
+    }
+  }
   if(k==='water'){ if(!takeStock('item_water'))return; p.thirst=Math.min(3,p.thirst+1);p.tc=0;p.dying=null; logp(`${nm} uống một chai nước.`); }
   else if(k==='jug'){ if(!SH.jugs.length)return; SH.jugs[0]--; if(SH.jugs[0]<=0)SH.jugs.shift(); p.thirst=Math.min(3,p.thirst+2);p.tc=0;p.dying=null; logp(`${nm} được rót một ly lớn từ bình Lavie.`); }
   else if(k==='food'){ if(!takeStock('item_food'))return; p.dying=null;
@@ -3857,6 +3932,16 @@ function tabRation(head,C,foot,mode){
   html+='</div>';
   C.innerHTML=html;
   $$('#mwC .actbtn').forEach(b=>b.onclick=()=>{SH.act=(SH.act===b.dataset.k?null:b.dataset.k);sfx.click();renderMail()});
+  if(!food&&SH.need){
+    const np=SH.people.find(q=>q.id===SH.need.id);
+    if(np&&!np.dead&&!np.left&&!np.away&&NEEDS[np.id]){
+      const w=document.createElement('div'); w.className='actrow needrow';
+      const b=document.createElement('button'); b.className='actbtn need';
+      b.innerHTML=avatarSVG(np.id,28,bodyState(np))+`<span>${NEEDS[np.id].label}<small>Không tốn gì, chỉ tốn thời gian</small></span>`;
+      b.onclick=()=>doNeed();
+      w.appendChild(b); C.appendChild(w);
+    }
+  }
   const wrap=document.createElement('div');
   SH.people.forEach((p,i)=>{
     if(p.dead||p.left)return;
@@ -4358,7 +4443,7 @@ function expedReturn(){
   loot.forEach(i=>names[ITEMS[i].name]=(names[ITEMS[i].name]||0)+1);
   logp(`${PPL[p.id].name} về đến hầm.`);
   logp(`<b>Mang về kho:</b> ${Object.entries(names).map(([k,v])=>v>1?`${k} ×${v}`:k).join(', ')}.`);
-  alive().forEach(q=>q.sanity=Math.min(3,q.sanity+1));
+  if(p&&p.sanity<3){p.sanity++;logp(`${PPL[p.id].name} về tới nơi, thở ra một hơi dài. Về được là tốt rồi.`)}
   if(r<missing+injure)sicken(p,'trip');
   if(p.id==='char_la'&&!p.bitten&&Math.random()<(weapon?.07:.14)){
     p.bitten=true; p.bitDay=SH.day; if(p.health<=2&&!p.why)p.why='bite';
@@ -5125,7 +5210,8 @@ function doDay(){
         logp(st[Math.floor(Math.random()*st.length)].replace(/{n}/g,PPL[p.id].name));
       }
     }
-    const cared=p.thirst>=3&&p.hunger>=3;
+    if(p.sulk>0)p.sulk--;
+    const cared=p.thirst>=3&&p.hunger>=3&&!p.sulk;
     if(cared){
       p.sc=0; p.gc=(p.gc||0)+1;
       if(p.gc>=3&&p.sanity<3){p.gc=0;p.sanity++;logp(`${PPL[p.id].name} được ăn uống tử tế mấy ngày liền, tinh thần khá lên.`)}
@@ -5168,6 +5254,8 @@ function doDay(){
     saveGame();
     return;
   }
+  needExpire();
+  rollNeed();
   releaseDeadChain();
   story();
   rollEvent();
