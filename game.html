@@ -409,7 +409,8 @@ input[type=range]{width:200px;accent-color:var(--ink)}
 #shtop{position:absolute;right:18px;top:14px;display:flex;gap:10px;z-index:50}
 #shtop button{background:rgba(20,28,26,.8);color:#D5E0DC;border:2px solid #4A5A55;border-radius:5px;padding:7px 13px;font-weight:700;font-size:13px}
 #shtop button:hover{border-color:#D5E0DC}
-#shmsg{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);color:var(--hazard);font-weight:700;font-size:15px;background:rgba(15,22,20,.85);padding:8px 16px;border-radius:3px;opacity:0;transition:opacity .2s;z-index:55}
+#shmsg{position:absolute;left:50%;bottom:168px;transform:translateX(-50%);color:var(--hazard);font-weight:700;font-size:15px;line-height:1.55;text-align:left;max-width:520px;background:rgba(15,22,20,.94);border:2px solid #3C4845;padding:12px 18px;border-radius:5px;opacity:0;transition:opacity .2s;z-index:120;box-shadow:0 8px 22px rgba(0,0,0,.45)}
+#shmsg b{color:#F3E7C8}
 #shmsg.on{opacity:1}
 #hud{position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(180deg,#1B2321 0%,#0E1312 100%);border-top:3px solid #060909;box-shadow:0 -8px 22px rgba(0,0,0,.5);z-index:40;display:flex;align-items:center;padding:0 16px}
 #hudFaces{display:flex;gap:8px;align-items:stretch;flex:1}
@@ -519,6 +520,22 @@ input[type=range]{width:200px;accent-color:var(--ink)}
 .mwtabs .mwtab.on{background:#FAF5E9;color:var(--ink);border-color:#C9C1AE;box-shadow:inset 6px 0 0 var(--tc);margin-right:-2px;padding-right:16px;position:relative;z-index:2}
 .mwtabs .mwtab[disabled]{opacity:.38;background:#E4DCC8;box-shadow:none;cursor:default}
 .mwtabs{width:208px}
+#menu .links button{position:relative}
+.newdot{position:absolute;right:-9px;top:-5px;min-width:10px;height:10px;border-radius:50%;background:#F2B21A;box-shadow:0 0 0 2px #1A1410,0 0 10px rgba(242,178,26,.8);animation:dotBlink 1.2s ease-in-out infinite}
+#menu .links button:has(.newdot){color:#F6D98A}
+#newsRows{max-height:420px;overflow:auto;padding-right:6px}
+.newsblk{border-left:3px solid #C9C1AE;padding:4px 0 10px 12px;margin-bottom:10px}
+.newsblk.latest{border-left-color:var(--hazard)}
+.newsblk .nhd{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.newsblk .nhd b{font-size:15.5px}
+.newsblk .nhd span{font-size:11.5px;color:var(--slate);letter-spacing:.04em}
+.newsblk ul{margin:0;padding-left:18px}
+.newsblk li{font-size:13.5px;line-height:1.55;margin:3px 0;color:#3A3A34}
+.opt.tham{border-color:#8A6BA8}
+.opt.tham .lbl{color:#4A3A5E}
+.ghostbtn.laask{position:absolute;right:22px;bottom:14px;margin:0;background:#2F6DB5;border:2px solid #214E85;color:#F2F7FC;font-weight:800;border-radius:4px;padding:11px 16px;white-space:nowrap;font-size:13.5px;z-index:3}
+.ghostbtn.laask:hover{background:#3A82D4;color:#fff}
+.ghostbtn.laask:hover{background:#3A82D4;color:#fff}
 .mwmain{background:#FAF5E9;border-left:2px solid #C9C1AE}
 .mwtab{background:#E2DBCA;border:1.5px solid #C9C1AE;border-bottom:0;border-radius:3px 7px 0 0;padding:9px 13px;font-size:13px;font-weight:700;color:var(--slate);position:relative;top:1.5px}
 .mwtab.on{background:#FAF5E9;color:var(--ink);border-color:#E1E7EB}
@@ -536,7 +553,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
 .mwc .ev{font-weight:700;margin-top:12px}
 .mwc .mailblock{background:#F8F0DE;border:1.5px solid #E3D7C4;border-left:5px solid var(--alarm);padding:10px 14px;margin:10px 0;font-size:13.5px;line-height:1.5}
 .mwc .mailblock b{display:block;font-size:12.5px;color:var(--slate);margin-bottom:3px}
-.mwfoot{padding:10px 26px 14px;border-top:1.5px solid #E1E7EB;display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex:none;min-height:56px}
+.mwfoot{position:relative;padding:10px 190px 14px 22px;border-top:1.5px solid #E1E7EB;display:flex;gap:9px;align-items:center;flex-wrap:wrap;flex:none;min-height:56px}
 .opt{display:flex;align-items:center;gap:9px;background:#F2ECDE;border:2px solid var(--ink);border-radius:3px;padding:8px 14px 8px 9px;font-size:13.5px;font-weight:700;box-shadow:3px 3px 0 var(--ink);text-align:left}
 .opt:hover:not([disabled]){transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
 .opt[disabled]{opacity:.38;box-shadow:none;cursor:not-allowed;transform:none}
@@ -694,7 +711,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
       <span class="va">the</span>
       <span class="big display red">DYNAMITE</span>
     </h1>
-    <div class="verbadge">v2.0.0</div>
+    <div class="verbadge">v2.2.2</div>
     <div class="tagline">09:31 — Toà nhà Công ty TNHH Thuốc Nổ. Bạn vừa chấm công trễ một phút.</div>
     <div class="acts">
       <button class="alt" id="bCont" style="display:none"><b>Chơi tiếp</b><span></span></button>
@@ -705,7 +722,7 @@ input[type=range]{width:200px;accent-color:var(--ink)}
       <button class="alt" data-mode="practice"><b>Luyện vơ vét</b><span>Chỉ phần 60 giây, tính điểm</span></button>
       <button class="alt" data-mode="survival"><b>Chỉ sinh tồn</b><span>Vào thẳng hầm với kho có sẵn</span></button>
       </div>
-    <div class="links"><button id="bGal">Kho ảnh</button><button id="bCrew">Nhân sự</button><button id="bAch">Thành tựu</button><button id="bStats">Thống kê</button><button id="bSet">Cài đặt</button></div>
+    <div class="links"><button id="bNews">Có gì mới<span class="newdot" id="newsDot"></span></button><button id="bGal">Kho ảnh</button><button id="bCrew">Nhân sự</button><button id="bAch">Thành tựu</button><button id="bStats">Thống kê</button><button id="bSet">Cài đặt</button></div>
     <div class="lineup" id="lineup"></div>
       <div class="punchbox" aria-hidden="true">
         <svg viewBox="0 0 120 150" width="96" height="120" aria-hidden="true">
@@ -925,6 +942,14 @@ input[type=range]{width:200px;accent-color:var(--ink)}
   </div>
 
   <!-- STATS -->
+  <div class="modal" id="mNews" role="dialog" aria-label="Có gì mới">
+    <div class="panel">
+      <h2>Có gì mới</h2>
+      <div id="newsRows"></div>
+      <button class="xclose" data-close="mNews" aria-label="Đóng">×</button>
+    </div>
+  </div>
+
   <div class="modal" id="mStats" role="dialog" aria-label="Thống kê">
     <div class="panel">
       <h2>Thống kê</h2>
@@ -983,6 +1008,32 @@ try{ if(localStorage.getItem('ctvtn_build')!==BUILD)wipeAll(); }catch(e){}
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 const settings=Object.assign({vol:70,mute:false,big:false,tips:true,diff:'normal'},load('ctvtn_settings',{}));
+const CHANGELOG=[
+ {v:'2.2.1',d:'01/10',t:'Nghề của Thắm và Lan',
+  items:['Chị Thắm: trong tám sự kiện cần băng keo giờ có thêm lựa chọn nhờ chị xử lý, không tốn băng keo, hai lần mỗi ván.',
+         'Em Lan: nút nhờ tư vấn trước mỗi chuyến ra ngoài, cho biết khả năng không về, khả năng bị thương và số đồ dự kiến.',
+         'Em Lan: các lựa chọn có rủi ro hiện luôn tỉ lệ ăn, và mỗi ván em được thử lại một lần khi hỏng việc.']},
+ {v:'2.1.0',d:'01/10',t:'Chuyến đi xa',
+  items:['Thêm chuyến đi xa 5 tới 7 ngày, phải mang Sơ đồ tòa nhà mới đi được, nguy hiểm hơn nhưng nhiều đồ và dễ gặp đồ hiếm.',
+         'Chuyến thường giờ dài 1 tới 3 ngày tùy chuyến.',
+         'Cặp táp và đèn pin không mất sau chuyến nữa, chỉ có thể hỏng khi về.',
+         'Sơ đồ tòa nhà giảm rủi ro mất tích mạnh hơn trước.']},
+ {v:'2.0.0',d:'01/10',t:'Cân lại kho và thành tựu',
+  items:['Nước và đồ ăn giờ sinh ra bằng nhau, khát và đói tụt cùng nhịp.',
+         'Người buôn lậu chủ yếu bán nhu yếu phẩm, đồ lạ chỉ còn một phần mười.',
+         'Thêm 20 thành tựu mới và gỡ những cái không còn mở được.',
+         'Sáu món quan trọng giờ luôn nằm đúng một chỗ trong tòa nhà.']},
+ {v:'1.9.0',d:'01/10',t:'Hộp thư nội bộ mới',
+  items:['Năm tab chuyển sang cột trái, có icon và màu riêng.',
+         'Danh sách ngày cũ chuyển lên thành dải ngang, cuộn để xem lại.',
+         'Chấm đỏ báo tab nào đang có việc cần làm.',
+         'Qua ngày mới không còn tự mở laptop nữa.']},
+ {v:'1.8.0',d:'01/10',t:'Thanh trạng thái dưới màn hình',
+  items:['Thêm thanh HUD với năm thẻ nhân vật, có chân dung và bốn thanh chỉ số.',
+         'Sức khỏe đổi thành ba mức: khỏe, yếu, nguy kịch.',
+         'Chân dung đổi theo tình trạng, ai mất thì thẻ xám đi.']}
+];
+function newsUnseen(){ return load('ctvtn_seen_ver','')!==CHANGELOG[0].v }
 const stats=Object.assign({runs:0,survived:0,nuked:0,bestItems:0,colleagues:0,bestScore:0,drills:0},load('ctvtn_stats',{}));
 function saveSettings(){save('ctvtn_settings',settings)}
 function saveStats(){save('ctvtn_stats',stats)}
@@ -1199,10 +1250,10 @@ const SKILL={
 };
 const PERK={
   char_intern:'Cát vạch sẵn đường đi, mọi chuyến ra ngoài của cả nhóm ngắn hơn một ngày.',
-  char_art:'Thắm bảo dưỡng liên tục, đồ trong kho hiếm khi hỏng.',
+  char_art:'Thắm bảo dưỡng liên tục nên đồ ít hỏng hơn, và mỗi ván có hai lần chị đứng ra xử lý thay cho một cuộn băng keo.',
   char_dat:'Đạt Q có hai lần ra chặn cửa miễn phí do bạn tự chọn lúc dùng, và mỗi chuyến vơ vét của anh mang về thêm một món.',
   char_tomie:'Tomie cầm trịch: cả hầm xuống tinh thần chậm hơn hẳn, chính cô miễn nhiễm với mọi sự kiện làm tụt tinh thần, và cứ mười ngày cô kéo người đang tệ nhất lên một bậc.',
-  char_la:'Lan nhìn ra chỗ hớ: mọi lựa chọn có rủi ro dễ thành công hơn hẳn, và khi hỏng việc thì món đồ đem ra dùng vẫn còn nguyên.',
+  char_la:'Lan đọc được thông số: nhờ em tư vấn trước mỗi chuyến đi và thấy luôn tỉ lệ ăn của từng lựa chọn. Mọi việc rủi ro dễ thành công hơn hẳn, và mỗi ván em được thử lại một lần.',
   char_main:'', char_ho:'', char_boss:''
 };
 const WEAK={
@@ -2148,6 +2199,15 @@ $('#bAch').onclick=()=>{
   $('#achBody').innerHTML=h;
   $('#mAch').classList.add('on');
 };
+if(!newsUnseen())setTimeout(()=>{const d=$('#newsDot');if(d)d.style.display='none'},0);
+$('#bNews').onclick=()=>{
+  audio();sfx.click();
+  save('ctvtn_seen_ver',CHANGELOG[0].v);
+  $('#newsDot').style.display='none';
+  $('#newsRows').innerHTML=CHANGELOG.map((c,i)=>
+    `<div class="newsblk${i?'':' latest'}"><div class="nhd"><b>${c.t}</b><span>bản ${c.v}</span></div><ul>${c.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+  $('#mNews').classList.add('on');
+};
 $('#bStats').onclick=()=>{
   audio();sfx.click();
   const rows=[['Số ván đã chơi',stats.runs],['Số lần xuống hầm kịp',stats.survived],['Số lần bị bom',stats.nuked],['Nhiều đồ nhất trong một ván',stats.bestItems],['Sống lâu nhất trong hầm',(stats.bestDays||0)+' ngày']];
@@ -2842,7 +2902,7 @@ const IDESC={
  item_guide:'Mang theo khi đi vơ vét thì người đi sẽ xé một trang, vẽ đường về hầm và dán lên cột điện cho người bên ngoài thấy. Đập bọ, chèn cửa, nhóm lửa. Sách hay bất ngờ.',
  item_cards:'Kéo lên một người đang căng thẳng để chơi một ván. Ba ngày mới dùng lại được.',
  item_plant:'Nhìn thì dịu mắt. Nhưng cũng phải tưới.',
- item_briefcase:'Mang đi vơ vét để có thêm 3 ô đồ. Dùng xong là rách.',
+ item_briefcase:'Mang đi vơ vét để có thêm 3 ô đồ. Dùng được nhiều lần, nhưng quai hay đứt.',
  item_band:'Của Em Cát. Có nó thì em giữ được tinh thần lâu hơn nhiều.',
  item_tea:'Của Chị Thắm. Pha được một ấm là chị thấy mọi thứ dễ chịu hẳn.',
  item_aqua:'Của Anh Đạt Q. Mấy cọng rong trong bình vẫn sống, và anh vin vào đó.',
@@ -2899,6 +2959,7 @@ const EVENTS=[
   text:'Có tiếng rít nhỏ từ ống thông gió, rồi một lớp bụi mịn phủ xuống kệ đồ. Không ai dám thở mạnh.',
   opts:[
    {item:'item_ducttape',consume:true,text:'Chúng tôi dán kín miệng ống bằng băng keo. {P} bảo đây gọi là xử lý đúng quy trình.',eff:{}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm bò lên kiểm tra mối nối, tháo ra lắp lại rồi siết chặt bằng tay. Tiếng rít tắt hẳn, và cuộn băng keo vẫn nguyên trong kho.',eff:{}},
    {none:true,label:'Coi như không thấy gì',text:'Chúng tôi quyết định coi như không thấy gì. Đêm đó cả hầm ho không ngủ được.',eff:{sickRandom:1,sanityAll:-1}}
   ]},
  {id:'roach',min:3,w:10,
@@ -2918,7 +2979,7 @@ const EVENTS=[
   text:'Có tiếng đập cửa hầm. Rất mạnh, rất đều, kiểu người biết chắc bên trong có người.',
   opts:[
    {item:'item_axe',consume:false,text:'Chúng tôi mở hé cửa, tay cầm rìu cứu hỏa. Bên ngoài đổi ý rất nhanh.',eff:{}},
-   {item:'item_taser',consume:true,text:'Một tiếng tách. Bên ngoài im lặng, rồi tiếng bước chân xa dần.',eff:{}},
+   {item:'item_taser',consume:true,label:'Chích tên đứng gần nhất',text:'Chúng tôi hé cửa đúng một khe. Một tiếng tách, tên đứng gần nhất đổ xuống ngay bậc thềm. Mấy tên còn lại nhìn nhau rồi bỏ chạy, không ai quay lại.',eff:{}},
    {item:'item_lock',consume:true,text:'Chúng tôi khoá chặt cửa hầm bằng ổ khóa. Họ đập một lúc rồi bỏ đi, mang theo luôn cái ổ khóa méo mó.',eff:{}},
    {none:true,label:'Hát át tiếng động',text:'Cả hầm hát nhỏ một bài ai cũng thuộc, đủ to để không nghe thấy thứ ngoài kia nữa.',eff:{sanityAll:1}},
    {none:true,label:'Nín thở chờ',text:'Chúng tôi nín thở chờ. Họ vào.',eff:{raid:1}}
@@ -3392,7 +3453,7 @@ function statusLines(p){
 }
 let shMsgT=null;
 function flick(){const e=$('#shelter');e.classList.remove('flick');void e.offsetWidth;e.classList.add('flick');setTimeout(()=>e.classList.remove('flick'),3400);tone(70,.5,'sine',.2,40)}
-function shMsg(t){const m=$('#shmsg');m.textContent=t;m.classList.add('on');clearTimeout(shMsgT);shMsgT=setTimeout(()=>m.classList.remove('on'),2600)}
+function shMsg(t,html){const m=$('#shmsg');if(html)m.innerHTML=t;else m.textContent=t;m.classList.add('on');clearTimeout(shMsgT);shMsgT=setTimeout(()=>m.classList.remove('on'),html?6000:2600)}
 
 /* ---------- KÉO ĐỒ CHO NGƯỜI ---------- */
 function shStartDrag(e){
@@ -3572,7 +3633,7 @@ function tabToday(head,C,foot){
   head.innerHTML=`<h3>Bản tin ngày thứ ${SH.day}</h3><div class="sub">Có mặt trong hầm: ${alive().filter(p=>!p.away).map(p=>PPL[p.id].name).join(', ')||'không còn ai'}.</div>`;
   let html=h.lines.map(t=>`<p>${dogName(t)}</p>`).join('');
   const ev=evObj();
-  if(ev&&(ev.id==='trader'||ev.id==='trader2')&&!SH.offer)SH.offer=makeOffer(ev.id==='trader2'?'item_flare':null);
+  if(ev&&(ev.id==='trader'||ev.id==='trader2')&&!SH.offer)SH.offer=makeOffer(null);
   if(ev)html+=`<p class="ev">${dogName(ev.text).replace('{OFFER}',SH.offer?offerText(SH.offer):'')}</p>`;
   if(SH.evDone)html+=`<p>${SH.evDone}</p>`;
   if(h.after&&h.after.length)html+=h.after.map(t=>`<p>${dogName(t)}</p>`).join('');
@@ -3613,9 +3674,16 @@ function tabToday(head,C,foot){
           if(!ok)b.disabled=true;
           const nm=arr=>arr.map(([id,q])=>`${ITEMS[id].name}${q>1?' ×'+q:''}`).join(', ');
           b.innerHTML=`<span class="lbl">${o.label}<small>${ok?`Đưa ${nm(SH.offer.want)}, nhận ${nm(SH.offer.give)}`:'Không đủ đồ để đổi'}</small></span>`;
+        } else if(o.tham){
+          const left=(SH.thamFix===undefined?2:SH.thamFix);
+          const ok=artHere()&&left>0;
+          if(!ok)b.disabled=true;
+          b.className='opt tham';
+          b.innerHTML=icon('item_ducttape',32)+`<span class="lbl">Nhờ Chị Thắm<small>${!artHere()?'Chị Thắm không có ở đây':(left>0?`Không tốn băng keo, còn ${left} lần`:'Chị đã giúp hai lần rồi')}</small></span>`;
         } else {
         if(!(o.none||has(o.item)))b.disabled=true;
-        b.innerHTML=(o.none?'':icon(o.item,32))+`<span class="lbl">${o.label?dogName(o.label):(o.none?'':'Dùng '+ITEMS[o.item].name)}<small>${o.none?'Không dùng gì cả':(o.consume?'Mất món này':'Có thể giữ lại được')}</small></span>`;
+        const pct=(o.chance!==undefined&&laOracle())?` · ${Math.round(Math.min(.97,o.chance+(isMain('char_la')?.20:0))*100)}% ăn`:'';
+        b.innerHTML=(o.none?'':icon(o.item,32))+`<span class="lbl">${o.label?dogName(o.label):(o.none?'':'Dùng '+ITEMS[o.item].name)}<small>${o.none?'Không dùng gì cả':(o.consume?'Mất món này':'Có thể giữ lại được')}${pct}</small></span>`;
         }
         b.onclick=()=>chooseOpt(idx);
         foot.appendChild(b);
@@ -3625,22 +3693,72 @@ function tabToday(head,C,foot){
     foot.insertAdjacentHTML('beforeend','<span class="tag2">Xong phần tin tức. Xem tiếp các tab bên trái.</span>');
   }
 }
+function laOdds(){
+  const p=SH.people.find(x=>x.id===SH.sel);
+  if(!p)return null;
+  const c=SH.carry||[];
+  const hasMap=c.includes('item_map'), weapon=c.includes('item_axe')||c.includes('item_taser');
+  const mask=c.includes('item_gasmask'), torch=c.includes('item_flashlight'), bag=c.includes('item_briefcase');
+  let miss=(hasMap?.03:.07)*dp().risk;
+  if(p.health===1)miss+=.18;else if(p.health===2)miss+=.10;
+  if(p.tired>0)miss+=.08;
+  if(p.thirst<=1||p.hunger<=1)miss+=.05;
+  if(p.sanity<=0)miss+=.15;
+  if(SH.followed)miss+=.12;
+  miss=Math.min(.25,miss);
+  if(p.mutant)miss=.02;
+  const injure=weapon?.06:.12;
+  let lo=2,hi=4;
+  if(p.id==='char_dat'&&isMain('char_dat'))lo++,hi++;
+  if(hasMap)lo++,hi++;
+  if(bag)lo+=2,hi+=2;
+  if(p.id==='char_intern')lo++,hi++;
+  if(p.thirst<=1||p.hunger<=1){lo=Math.max(1,lo-1);hi=Math.max(1,hi-1)}
+  const rad=mask?0:(SH.day<=10?.30:(SH.day<=20?.18:.08));
+  return {miss,injure,lo,hi,torch,rad,name:PPL[p.id].name};
+}
+function showLaTip(){
+  const o=laOdds();
+  if(!o){shMsg('Lan nói: chọn người đi trước đã, rồi em tiên tri cho.');return}
+  const L=[`Khả năng không về: <b>${Math.round(o.miss*100)}%</b>.`,
+           `Khả năng về mà bị thương: <b>${Math.round(o.injure*100)}%</b>.`,
+           `Mang về chừng <b>${o.lo} tới ${o.hi} món</b>.`];
+  if(o.rad>0)L.push(`Không có mặt nạ nên nguy cơ nhiễm xạ khoảng <b>${Math.round(o.rad*100)}%</b>.`);
+  L.push(o.torch?'Có đèn pin nên dễ vớ được món hiếm ở mấy góc tối.':'Không có đèn pin thì toàn nhặt đồ thường thôi.');
+  shMsg(`<b>Lan tính thử cho chuyến của ${o.name}</b><br>`+L.join('<br>'),true);
+}
 function artHere(){return SH.people.some(p=>p.id==='char_art'&&!p.dead&&!p.left&&!p.away)}
+function laHere(){return SH.people.some(p=>p.id==='char_la'&&!p.dead&&!p.left&&!p.away)}
+function laOracle(){return isMain('char_la')&&laHere()}
 const BRK={item_axe:.15,item_flashlight:.15,item_radio:.10,item_gasmask:.15,item_cards:.05,item_map:.05,item_guide:0,item_bugspray:0,item_ducttape:0,item_taser:0};
 function chooseOpt(idx){
   const ev=evObj(), o=ev.opts[idx];
+  if(o.tham){
+    if(!artHere()||(SH.thamFix===undefined?2:SH.thamFix)<=0)return;
+    SH.thamFix=(SH.thamFix===undefined?2:SH.thamFix)-1;
+    unlock('a_fix');
+  }
   let txt=o.text, eff=o.eff||{}, ok=true, sets=o.set||[];
   if(o.chance!==undefined){
     let c=o.chance;
     if(isMain('char_la'))c=Math.min(.97,c+.20);
     if(Math.random()>c)ok=false;
   }
-  if(!ok){txt=o.fail.text;eff=o.fail.eff||{};sets=o.fail.set||[]}
-  if(o.item&&o.consume&&(ok||o.chance===undefined))takeStock(o.item);
-  else if(o.item&&o.consume&&!ok)takeStock(o.item);
+  let redone=false;
+  if(!ok&&laOracle()&&(SH.laRedo===undefined?1:SH.laRedo)>0){
+    SH.laRedo=(SH.laRedo===undefined?1:SH.laRedo)-1;
+    redone=true;
+    let c2=o.chance; if(isMain('char_la'))c2=Math.min(.97,c2+.20);
+    ok=Math.random()<=c2;
+  }
+  if(redone)txt=(ok?'<b>Lan: khoan đã, để em thử lại.</b> ':'<b>Lan thử lại một lần nữa, nhưng lần này cũng không ăn.</b> ')+(ok?o.text:o.fail.text);
+  if(!ok){eff=o.fail.eff||{};sets=o.fail.set||[];if(!redone)txt=o.fail.text}
+  else if(redone){eff=o.eff||{};sets=o.set||[]}
+  if(!o.tham&&o.item&&o.consume&&(ok||o.chance===undefined))takeStock(o.item);
+  else if(!o.tham&&o.item&&o.consume&&!ok)takeStock(o.item);
   let bchance=(o.brk!==undefined)?o.brk:(o.consume?0:(BRK[o.item]||0));
-  if(isMain('char_art'))bchance*=.3;
-  if(isMain('char_la'))bchance*=.5;
+  if(isMain('char_art'))bchance*=.7;
+
   if(ok&&o.item&&!o.consume&&bchance&&Math.random()<bchance&&breakItem(o.item))txt+=` ${ITEMS[o.item].name} hỏng mất trong lúc dùng.`;
   applyEff(eff);
   sets.forEach(setFlag);
@@ -3834,14 +3952,26 @@ function tabOut(head,C,foot){
   });
   C.appendChild(tw);
   C.insertAdjacentHTML('beforeend',`<div class="risk">${riskText()}</div>`);
+  const hasMapNow=SH.carry.includes('item_map');
+  C.insertAdjacentHTML('beforeend',`<p class="dim">Đi xa: ${hasMapNow?'mất 5 tới 7 ngày, nguy hiểm hơn, nhưng vơ được nhiều và dễ gặp đồ hiếm.':'phải mang Sơ đồ tòa nhà mới dám đi xa. Không có sơ đồ thì chỉ quanh quẩn gần đây.'}</p>`);
   const go=document.createElement('button'); go.className='confirm'; go.textContent='Chuẩn bị cho sáng mai';
   go.disabled=!SH.sel||!canSend(SH.people.find(p=>p.id===SH.sel));
-  go.onclick=()=>prepExped();
+  go.onclick=()=>prepExped(false);
   foot.appendChild(go);
+  const far=document.createElement('button'); far.className='confirm'; far.textContent='Chuẩn bị chuyến đi xa';
+  far.disabled=go.disabled||!hasMapNow;
+  if(!hasMapNow)far.title='Cần mang theo Sơ đồ tòa nhà';
+  far.onclick=()=>prepExped(true);
+  foot.appendChild(far);
   if(SH.carry.length){
     const c=document.createElement('button'); c.className='ghostbtn'; c.textContent='Bỏ đồ mang theo';
     c.onclick=()=>{SH.carry=[];sfx.click();renderMail()};
     foot.appendChild(c);
+  }
+  if(laOracle()){
+    const ask=document.createElement('button'); ask.className='ghostbtn laask'; ask.textContent='Nhờ Lan tư vấn';
+    ask.onclick=()=>{ sfx.click(); showLaTip(); };
+    foot.appendChild(ask);
   }
 }
 const OUTSIDE_TEXT=[
@@ -4129,7 +4259,7 @@ function riskText(){
   if(SH.followed)L.push('Đang có kẻ theo dõi ngoài kia. Ra ngoài lúc này là dẫn chúng tới tận cửa hầm.');
   return L.join(' ');
 }
-function prepExped(){
+function prepExped(far){
   const p=SH.people.find(x=>x.id===SH.sel);
   if(!canSend(p))return;
   if(p.id==='char_art'&&SH.artWarned)markStay('char_art','Chị Thắm nhận chuyến nữa dù hôm qua cả hầm đã thấy chị đi không vững. <span class="warn">Chuyện này sẽ đổi cách ván chơi kết thúc.</span>');
@@ -4137,8 +4267,9 @@ function prepExped(){
   const items=(SH.carry||[]).slice();
   if(alive().filter(x=>x!==p&&!x.away).length===0&&items.includes('item_lock')){shMsg('Ổ khóa phải ở lại trong hầm.');return}
   items.forEach(id=>takeStock(id));
-  SH.prep={id:p.id,items};
+  SH.prep={id:p.id,items,far:!!far};
   SH.sel=null; SH.carry=[];
+  if(far)logp('Chuyến này đi xa, qua mấy dãy nhà bên kia. Theo sơ đồ thì bên đó còn nguyên nhiều thứ.');
   logp(`Chúng tôi chuẩn bị cho ${PPL[p.id].name} ra ngoài sáng mai.`);
   sfx.click(); saveGame(); renderMail(); renderShelter();
 }
@@ -4146,18 +4277,18 @@ function departExped(){
   const pr=SH.prep; SH.prep=null;
   const p=SH.people.find(x=>x.id===pr.id);
   if(!p||p.dead||p.left){pr.items.forEach(id=>addStock(id));return}
-  let dur=2+Math.floor(Math.random()*3);
-  if(pr.items.includes('item_map'))dur=Math.max(2,dur-1);
+  let dur=pr.far?(5+Math.floor(Math.random()*3)):(1+Math.floor(Math.random()*3));
   if(isMain('char_intern'))dur=Math.max(1,dur-1);
   p.away=true;
-  SH.exped={id:p.id,items:pr.items,sent:SH.day,back:SH.day+dur,oneDay:false};
+  SH.exped={id:p.id,items:pr.items,sent:SH.day,back:SH.day+dur,oneDay:false,far:!!pr.far};
   SH.outDays=SH.outDays||{}; SH.outDays[p.id]=(SH.outDays[p.id]||0)+dur;
   if(p.id==='char_art'&&SH.outDays.char_art>=6&&!SH.artWarned){SH.artWarned=true}
   if(SH.followed)SH.wentOutWhileFollowed=true;
   SH.expCount=(SH.expCount||0)+1; if(SH.expCount>=3)unlock("a_exp3"); if(SH.expCount>=10)unlock('a_exp10');
   logp(`${PPL[p.id].name} rời hầm sáng nay. Cửa mở đúng một lần rồi đóng lại.`);
 }
-function lootRoll(torch){
+function lootRoll(torch,far){
+  if(far&&Math.random()<.22)return ['item_medkit','item_gasmask','item_radio','item_flashlight','item_map','item_axe','item_lock','item_cards'][Math.floor(Math.random()*8)];
   if(Math.random()<.12)return 'item_bandage';
   if(!torch&&Math.random()<.04)return 'item_medkit';
   const early=SH.day<=12;
@@ -4174,7 +4305,7 @@ function expedReturn(){
   const hasMap=e.items.includes('item_map'), weapon=e.items.some(i=>i==='item_axe'||i==='item_taser');
   const mask=e.items.includes('item_gasmask'), torch=e.items.includes('item_flashlight');
   const bag=e.items.includes('item_briefcase');
-  let missing=(hasMap?.04:.07)*dp().risk;
+  let missing=(hasMap?.03:.07)*dp().risk*(e.far?1.8:1);
   if(p.health===1)missing+=.18;else if(p.health===2)missing+=.10;
   if(p.tired>0)missing+=.08;
   if(p.thirst<=1||p.hunger<=1)missing+=.05;
@@ -4200,7 +4331,7 @@ function expedReturn(){
     }
     return;
   }
-  let n=e.oneDay?1:2+Math.floor(Math.random()*3);
+  let n=e.oneDay?1:(e.far?4+Math.floor(Math.random()*3):2+Math.floor(Math.random()*3));
   if(p.id==='char_dat'&&isMain('char_dat')&&!e.oneDay)n++;
   if(hasMap)n++;
   if(bag)n+=2;
@@ -4210,9 +4341,15 @@ function expedReturn(){
   if(dp().loot<1&&Math.random()<.3)n=Math.max(1,n-1);
   let heavy=null;
   const loot=[];
-  for(let i=0;i<n;i++){const id=lootRoll(torch);loot.push(id);addStock(id);markNew(id)}
+  for(let i=0;i<n;i++){const id=lootRoll(torch,e.far);loot.push(id);addStock(id);markNew(id)}
   e.items.forEach(id=>{
-    if(id==='item_briefcase'){logp('Cặp táp bị bỏ lại ngoài đó, dùng để tha đồ về nên rách hết.');return}
+    if(id==='item_briefcase'||id==='item_flashlight'){
+      addStock(id);
+      let c=.15; if(isMain('char_art'))c*=.7; if(isMain('char_la'))c*=.5;
+      if(Math.random()<c&&breakItem(id))logp(id==='item_briefcase'
+        ?'Quai cặp táp đứt lúc về tới cửa hầm. Phải vá lại mới dùng tiếp được.'
+        :'Đèn pin va vào đâu đó trên đường về, bật mãi không lên.');
+      return}
     if(id==='item_gasmask'&&Math.random()<(isMain('char_art')?.05:.15)){addStock(id);breakItem(id);logp('Kính mặt nạ phòng độc bị nứt. Cần băng keo để vá lại.');return}
     if(id==='item_map'&&Math.random()<(isMain('char_art')?.03:.10)){logp('Sơ đồ tòa nhà rơi đâu mất ngoài kia.');return}
     addStock(id);
@@ -4274,6 +4411,7 @@ const MORE_EVENTS=[
   opts:[
    {item:'item_ducttape',consume:true,chance:.7,tech:true,text:'Chúng tôi vá tạm cái ống dẫn bằng băng keo. Máy phát chạy lại, kêu hơi lạ nhưng chạy.',
     fail:{text:'Băng keo bong ra sau mười phút. Máy phát tắt hẳn một đêm.',eff:{sanityAll:-1}},eff:{}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm nằm hẳn xuống sàn, mò theo đường ống rồi chỉ đúng chỗ hở. Chị nắn lại bằng kìm, máy chạy lại ngay, không tốn cuộn băng keo nào.',eff:{}},
    {item:'item_flashlight',consume:false,brk:.15,text:'Có đèn pin nên cả hầm còn thấy đường. Máy phát thì tự chạy lại lúc gần sáng.',eff:{}},
    {none:true,label:'Ngồi trong tối',text:'Chúng tôi ngồi trong bóng tối tới sáng. Không ai nói câu nào.',eff:{sanityAll:-1,injureChance:.2}}
   ]},
@@ -4282,12 +4420,14 @@ const MORE_EVENTS=[
   opts:[
    {item:'item_ducttape',consume:true,chance:.75,tech:true,text:'Nối lại mối dây, dán băng keo. Radio kêu trở lại.',
     fail:{text:'Không được. Cái đài kêu một tiếng rồi tắt ngóm.',eff:{brkItem:'item_radio'}},eff:{}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm tháo nắp, xoắn lại mối dây theo đúng chiều rồi gập gọn vào trong. Tiếng người rõ hẳn, chị nói kiểu này bền hơn dán.',eff:{}},
    {none:true,label:'Đập nhẹ vài cái',text:'Chúng tôi đập nhẹ vào vỏ đài. Cách này hiệu quả một cách đáng ngờ.',eff:{brkChance:['item_radio',.45]}}
   ]},
  {id:'drip',min:4,w:8,
   text:'Có nước rỉ từ trần hầm, nhỏ đúng vào thùng đồ khô. Không rõ là nước gì.',
   opts:[
    {item:'item_ducttape',consume:true,text:'Dán kín chỗ rỉ. Hứng được một ít nước sạch trước khi dán, coi như lãi.',eff:{stockGain:{item_water:1},leakFix:1}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm cắt một mảnh nhựa vừa khít rồi nêm vào khe nứt. Nước ngừng chảy, băng keo không phải bóc ra.',eff:{}},
    {none:true,label:'Kê thùng sang chỗ khác',text:'Chúng tôi kê thùng đồ sang góc khác. Sáng ra cả hầm ẩm mốc, và chỗ rỉ thì to thêm một chút.',eff:{sickChanceRandom:.2,leak:1}}
   ]},
  {id:'rats',min:6,w:8,
@@ -4304,7 +4444,7 @@ const MORE_EVENTS=[
    {item:'item_food',consume:true,text:'Chúng tôi đẩy một hộp mì qua khe cửa. Anh ta ngồi ăn ngay ngoài đó, rồi gõ cửa hai tiếng chào tạm biệt.',eff:{sanityAll:1},set:['stranger_friend']},
    {none:true,label:'Không mở',text:'Chúng tôi không trả lời. Tiếng gõ thưa dần rồi hết.',eff:{sanityAll:-1},set:['stranger_cold']}
   ]},
- {id:'trader2',min:9,w:7,noItem:'item_flare',
+ {id:'trader2',min:9,w:7,
   text:'Người buôn lậu quay lại, lần này mang theo một cái túi dài và kê hàng ra ngay trước khe cửa. {OFFER}',
   opts:[
    {offer:true,label:'Đồng ý đổi',text:'Anh ta nhận hàng, đếm lại một lượt rồi đẩy phần của mình qua khe cửa. Nhanh và gọn như đã làm việc này trăm lần.',eff:{doOffer:1}},
@@ -4335,6 +4475,7 @@ const MORE_EVENTS=[
   text:'Bụi mịn bay qua khe cửa hầm, đọng thành một lớp mỏng trên kệ đồ.',
   opts:[
    {item:'item_ducttape',consume:true,text:'Dán kín khe cửa. Hầm bí hơn nhưng sạch hơn.',eff:{}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm gấp mấy lớp vải cũ thành dải rồi nhét kín mép cửa. Hầm vẫn thoáng mà bụi không vào được nữa.',eff:{}},
    {item:'item_gasmask',consume:false,brk:.2,text:'Chúng tôi thay nhau đeo mặt nạ dọn sạch kệ đồ. Kính mặt nạ xước thêm vài đường.',eff:{}},
    {none:true,label:'Không làm gì',text:'Cả hầm ho suốt đêm.',eff:{sickRandom:1,sanityAll:-1}}
   ]},
@@ -4365,11 +4506,11 @@ const MORE_EVENTS=[
    {none:true,id:'no',label:'Thôi, đủ rồi',text:'Không ai muốn lên đó thêm lần nào nữa. Cái đài từ đó chỉ còn tiếng rè.',eff:{},set:['army_dead']}
   ]},
  /* ===== CHUỖI: TRỰC THĂNG BẰNG PHÁO SÁNG ===== */
- {id:'h1',min:10,w:18,needItem:'item_flare',block:['heli_done'],chain:'heli',
-  text:'Trời đêm quang, không mây. Khẩu súng bắn pháo sáng đổi được hôm nọ vẫn còn nguyên một viên. Bắn lúc này thì nửa thành phố sẽ thấy, kể cả những thứ không nên thấy.',
+ {id:'h1',min:25,w:18,block:['heli_done'],chain:'heli',
+  text:'Nửa đêm có tiếng cánh quạt rất gần, rồi một chùm đèn quét ngang mấy toà nhà bên kia đường. Trực thăng đang tìm người, và nó sẽ đi qua trong vài phút nữa.',
   opts:[
-   {item:'item_flare',consume:true,text:'Chúng tôi lên sân thượng và bắn một phát. Quả pháo treo lơ lửng rất lâu, đỏ rực. Hai ngày sau có tiếng cánh quạt.',eff:{win:'heli',after:2},set:['heli_done']},
-   {none:true,id:'no',label:'Để dành, chưa bắn',text:'Chúng tôi cất khẩu súng lại. Đêm đó ai cũng nhìn lên trần hầm khá lâu.',eff:{}}
+   {item:'item_flare',consume:true,label:'Bắn pháo sáng',text:'Chúng tôi lên sân thượng và bắn một phát. Quả pháo treo lơ lửng rất lâu, đỏ rực. Chiếc trực thăng nghiêng cánh một vòng rồi bay đi, và sáng hôm sau nó quay lại.',eff:{win:'heli',after:1},set:['heli_done']},
+   {none:true,id:'no',label:'Đứng nhìn nó bay qua',text:'Không có gì để ra hiệu. Chúng tôi đứng dưới hầm nghe tiếng cánh quạt nhỏ dần, rồi mất hẳn. Không ai nói gì tới sáng.',eff:{sanityAll:-1}}
   ]},
  /* ===== CHUỖI: CÔNG TY MẸ ===== */
  {id:'c1',min:10,w:16,req:['flyer'],gap:1,block:['comp_done'],chain:'company',
@@ -4398,6 +4539,7 @@ const LUCKY_EVENTS=[
   text:'Đường ống cũ chạy dọc tường hầm kêu ục ục. Có thể trong đó còn nước, cũng có thể là thứ khác.',
   opts:[
    {item:'item_ducttape',consume:true,text:'Chúng tôi cắt ống, hứng được đầy hai chai rồi vá lại bằng băng keo. Nước hơi tanh nhưng là nước.',eff:{stockGain:{item_water:2}}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm cắt ống bằng tay nghề đàng hoàng, hứng đầy hai chai rồi vặn nút lại. Không mất giọt nào, cũng không mất băng keo.',eff:{}},
    {item:'item_axe',consume:false,brk:.1,text:'Một nhát rìu. Nước phun ra, hứng được ba chai trước khi hết.',eff:{stockGain:{item_water:3}}},
    {none:true,label:'Đặt tên cho tiếng ục ục',text:'Có người đề nghị gọi nó là tiếng bụng của toà nhà. Từ đó mỗi lần nó kêu là cả hầm cười.',eff:{sanityAll:1}},
    {none:true,label:'Không động vào',text:'Chúng tôi để nguyên. Tiếng ục ục kéo dài thêm hai ngày rồi hết.',eff:{}}
@@ -4445,6 +4587,7 @@ const DECIDE_EVENTS=[
   text:'Người đang hoảng loạn nhất trong hầm bỗng đứng dậy, chỉ vào kho và nói mọi người đang giấu phần của mình. Rồi lao tới.',
   opts:[
    {item:'item_ducttape',consume:true,text:'Chúng tôi giữ tay và quấn băng keo. Hai ngày sau mới tháo ra, và người đó xin lỗi.',eff:{calmInsane:1}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Chị Thắm chen vào giữa hai người, nói đúng một câu về chuyện chia ca trực. Cả hai quên luôn mình đang cãi gì, và không ai phải quấn băng keo.',eff:{}},
    {item:'item_taser',consume:true,text:'Một tiếng tách ngắn. Mọi chuyện dừng lại ngay, nhưng không ai nhìn ai suốt hôm đó.',eff:{calmInsane:1,sanityAll:-1}},
    {none:true,label:'Mọi người xúm vào can',chance:.5,text:'Cả hầm xúm vào giữ. Cuối cùng cũng yên, ai cũng thở dốc.',eff:{calmInsane:1},
     fail:{text:'Có người bị đẩy ngã vào kệ đồ. Máu me và đổ vỡ.',eff:{injureChance:1,stockLoss:{item_water:1}}}}
@@ -4579,6 +4722,7 @@ const CHAR_EVENTS=[
   text:'Máy phát kêu một tiếng lạ. Em Lan ghé tai vào nghe rồi nói cái này giống hệt con bug em từng log hồi tháng trước.',
   opts:[
    {item:'item_ducttape',consume:true,chance:.8,tech:true,text:'Em Lan chỉ chỗ, chúng tôi dán lại. Máy phát chạy êm hẳn, và em ghi chú lại như đang viết báo cáo lỗi.',eff:{sanityAll:1},fail:{text:'Dán rồi mà máy phát vẫn kêu. Cuộn băng keo thì coi như xong.',eff:{}}},
+   {tham:true,label:'Nhờ Chị Thắm',text:'Em Lan chỉ chỗ, Chị Thắm làm. Hai người hợp nhau một cách đáng ngờ, và máy chạy êm hơn cả lúc mới.',eff:{}},
    {none:true,label:'Để em mò thử',chance:.45,text:'Em mò được thật. Em nói cái này gọi là fix tạm, đừng ai đụng vào nữa.',eff:{laSanity:1},
     fail:{text:'Không được. Máy phát tắt nửa đêm rồi tự chạy lại, cả hầm tỉnh giấc.',eff:{sanityAll:-1}}}
   ]},
@@ -4923,7 +5067,7 @@ function doDay(){
   SH.day++; SH.readNews=false; SH.ev=null; SH.evDone=null; SH.evP=null; SH.dayImg=null; SH.cardUsed=0; SH.offer=null; SH.tab=1; SH.plan={}; SH.newItems=[]; SH.blockPrep=false; SH.mode='today';
   SH.hist.push({day:SH.day,lines:[],after:[],close:'',ev:'',res:''});
   if(SH.hist.length>40)SH.hist.shift();
-  const ent=has('item_cards')||has('item_plant')||SH.people.some(p=>p.id==='char_ho'&&!p.dead&&!p.left&&!p.away);
+  const ent=has('item_cards')||SH.people.some(p=>p.id==='char_ho'&&!p.dead&&!p.left&&!p.away);
   const tomieHere=SH.people.some(p=>p.id==='char_tomie'&&!p.dead&&!p.left&&!p.away);
   if(SH.prep)departExped();
   if(SH.exped&&SH.day>=SH.exped.back)expedReturn();
@@ -4987,7 +5131,7 @@ function doDay(){
       if(p.gc>=3&&p.sanity<3){p.gc=0;p.sanity++;logp(`${PPL[p.id].name} được ăn uống tử tế mấy ngày liền, tinh thần khá lên.`)}
     } else {
       p.gc=0; p.sc++;
-      let th=(ent?15:13)+(SH.pet?2:0)+(isMain('char_tomie')?6:0);
+      let th=(ent?15:13)+(has('item_plant')?2:0)+(SH.pet?2:0)+(isMain('char_tomie')?6:0);
       if(PERSONAL[p.id]&&has(PERSONAL[p.id]))th+=4;
       if(p.sc>=th){p.sc=0;if(p.sanity>0){p.sanity--;if(p.sanity===1)logp(`${PPL[p.id].name} bắt đầu nói chuyện một mình.`)}}
     }
@@ -5209,8 +5353,11 @@ function releaseDeadChain(){
   }
 }
 const OFFER_WANT=['item_water','item_food','item_ducttape','item_bugspray','item_cards','item_flashlight','item_plant','item_axe','item_taser','item_map','item_guide','item_medkit','item_gasmask','item_radio','item_lock'];
-const OFFER_GIVE=['item_water','item_water','item_food','item_food','item_medkit','item_bandage','item_bandage','item_ducttape','item_gasmask','item_flashlight','item_map','item_axe','item_taser','item_cards','item_bugspray','item_lock','item_radio'];
-const OFFER_VAL={item_bandage:1.5,item_water:1,item_food:1,item_ducttape:1.5,item_bugspray:1,item_cards:1.5,item_flashlight:2,item_plant:1,item_axe:2.5,item_taser:2,item_map:2,item_guide:2,item_medkit:2.5,item_gasmask:3,item_radio:3,item_lock:2.5,item_flare:4};
+const OFFER_CORE=['item_water','item_water','item_water','item_food','item_food','item_food','item_water_jug','item_foodbox','item_medkit','item_bandage','item_bandage','item_bandage'];
+const OFFER_RARE=['item_ducttape','item_gasmask','item_flashlight','item_map','item_axe','item_taser','item_cards','item_bugspray','item_lock','item_radio'];
+function offerGivePool(){ return Math.random()<0.10 ? OFFER_RARE : OFFER_CORE; }
+const OFFER_GIVE=OFFER_CORE.concat(OFFER_RARE);
+const OFFER_VAL={item_bandage:1.5,item_water:1,item_food:1,item_ducttape:1.5,item_bugspray:1,item_cards:1.5,item_flashlight:2,item_plant:1,item_axe:2.5,item_taser:2,item_map:2,item_guide:2,item_medkit:2.5,item_gasmask:3,item_radio:3,item_lock:2.5,item_flare:4,item_water_jug:2.5,item_foodbox:2.5};
 function makeOffer(force){
   const KEEP=['item_walkie','item_charm'].concat(Object.values(PERSONAL));
   const own=[];
@@ -5246,7 +5393,8 @@ function makeOffer(force){
   const target=wantVal*(0.85+Math.random()*0.8);
   let guard=0;
   while(giveVal<target&&give.length<3&&guard++<30){
-    const id=OFFER_GIVE[Math.floor(Math.random()*OFFER_GIVE.length)];
+    const pool=offerGivePool();
+    const id=pool[Math.floor(Math.random()*pool.length)];
     if(want.some(w=>w[0]===id))continue;
     const v=OFFER_VAL[id]||1;
     if(giveVal+v>target+1.6&&give.length)break;
@@ -5319,7 +5467,12 @@ function rollEvent(){
     r-=wof(e);
     if(r<=0){
       SH.ev=e.id;SH.lastEv=e.id;
-      if(e.id==='trader'||e.id==='trader2'){SH.offer=makeOffer(e.id==='trader2'?'item_flare':null);if(!SH.offer){SH.ev=null;SH.lastEv=null;break}}else SH.offer=null;
+      if(e.id==='trader'||e.id==='trader2'){
+        const flareOdds=Math.min(.30,.05+.05*(SH.trades||0));
+        const wantFlare=(!has('item_flare')&&!(SH.flags||{}).heli_done&&Math.random()<flareOdds)?'item_flare':null;
+        SH.offer=makeOffer(wantFlare);
+        if(!SH.offer){SH.ev=null;SH.lastEv=null;break}
+      }else SH.offer=null;
       if(e.once)setFlag('once_'+e.id);if(e.id==='raid'||e.id==='leak')SH.heavyCool=2;break}
   }
 }
